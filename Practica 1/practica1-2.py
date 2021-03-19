@@ -69,7 +69,7 @@ for alpha in [0.3, 0.1, 0.03, 0.01]:
     plt.xlabel('Iteracion')
     plt.ylabel('Coste')
     
-    for i in range(3000):
+    for i in range(500):
         Theta, cost = gradiente(X_norm, Y_norm, theta, alpha)
         costes.append(cost)
     
