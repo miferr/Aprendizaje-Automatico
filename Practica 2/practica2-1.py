@@ -42,28 +42,41 @@ def gradient(theta, X, Y):
 result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(OX, Y))
 theta_opt = result[0]
 
+#   Definimos una funcion  que calcule el porcentaje de predicciones correctas
+def porcentaje():
+    ok = 0
+    i = 0
+    for h in hip(OX, theta_opt):
+        if h >= 0.5:
+            if Y[i] == 1.0:
+                ok +=1
+        else:
+            if Y[i] == 0.0:
+                ok +=1
+        i +=1
+    return (ok / m)
 
-# print(theta_opt)
-# print(cost(theta_opt, OX, Y))
-#   Definimos los puntos y la recta a dibujar
+#   Definimos la funcion de la recta a dibujar
+def pinta_frontera_recta(X, Y, theta):
+    x1_min, x1_max = X[:, 0].min(), X[:, 0].max()
+    x2_min, x2_max = X[:, 1].min(), X[:, 1].max()
+
+    xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max),np.linspace(x2_min, x2_max))
+    h = sigmoid(np.c_[np.ones((xx1.ravel().shape[0], 1)), xx1.ravel(), xx2.ravel()].dot(theta)) 
+    h = h.reshape(xx1.shape)
+    plt.contour(xx1, xx2, h, [0.5], linewidths=1, colors='b')
+    plt.savefig("frontera.pdf")
+
+#   Definimos los puntos a dibujar
 plt.xlabel('Puntuacion Examen 1')
 plt.ylabel('Puntuacion Examen 2')
 pos = np.where(Y == 1.0)
 neg = np.where(Y == 0.0)
+
 #   Dibujamos la grafica
 plt.scatter(X[pos, 0], X[pos, 1], marker='+', c='k')
 plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='g')
+pinta_frontera_recta(X, Y, theta_opt)
 
-x1_min, x1_max = X[:, 0].min(), X[:, 0].max()
-x2_min, x2_max = X[:, 1].min(), X[:, 1].max()
-
-xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max), np.linspace(x2_min, x2_max))
-
-
-h = sigmoid(np.c_[np.ones((xx1.ravel().shape[0], 1)), xx1.ravel(), xx2.ravel()].dot(theta))
-h = h.reshape(xx1.shape)
-
-# el cuarto parámetro es el valor de z cuya frontera se
-# quiere pintar
-plt.contour(xx1, xx2, h, [30], linewidths=1, colors='b')
-
+#   Calculamos el porcentaje de aciertos del modelo
+print("Porcentaje de aciertos: " + str(porcentaje()))
