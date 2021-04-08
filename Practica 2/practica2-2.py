@@ -40,7 +40,13 @@ def cost(theta, X, Y):
 
 #   Definimos la funcion de gradiente
 def gradient(theta, X, Y):
-    return ((1 / m) * np.matmul((hip(X, theta) - Y), X))+ ((lamda / m) * theta)
+    gradiente =  ((1 / m) * np.matmul((hip(X, theta) - Y), X))
+    result = gradiente[0]
+    i = 1
+    for e in gradiente[1:]:
+        result = np.append(result, e + ((lamda / m) * theta[i]))
+        i += 1
+    return result
 
 #   Obtenemos el coste y los valores de theta optimos
 result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(poly, Y))
@@ -68,4 +74,4 @@ plt.scatter(X[pos, 0], X[pos, 1], marker='+', c='k')
 plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='g')
 plot_decisionboundary(X, Y, theta_opt, poly)
 
-print(cost(theta, poly, Y))
+#print(cost(theta, poly, Y))

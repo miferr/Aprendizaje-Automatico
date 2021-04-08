@@ -65,7 +65,6 @@ def pinta_frontera_recta(X, Y, theta):
     h = sigmoid(np.c_[np.ones((xx1.ravel().shape[0], 1)), xx1.ravel(), xx2.ravel()].dot(theta)) 
     h = h.reshape(xx1.shape)
     plt.contour(xx1, xx2, h, [0.5], linewidths=1, colors='b')
-    plt.savefig("frontera.pdf")
 
 #   Definimos los puntos a dibujar
 plt.xlabel('Puntuacion Examen 1')
@@ -80,3 +79,4 @@ pinta_frontera_recta(X, Y, theta_opt)
 
 #   Calculamos el porcentaje de aciertos del modelo
 print("Porcentaje de aciertos: " + str(porcentaje()))
+print("gradiente: ",gradient(theta, OX, Y))
