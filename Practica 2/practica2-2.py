@@ -24,7 +24,7 @@ n = np.shape(poly)[1]
 theta = [0] * (n)
 
 #   Definimoos nuestra lamda
-lamda = 1
+lamda = 100
 
 #   Definimos la funcion sigmoide
 def sigmoid(z):
@@ -48,9 +48,18 @@ def gradient(theta, X, Y):
         i += 1
     return result
 
-#   Obtenemos el coste y los valores de theta optimos
-result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(poly, Y))
-theta_opt = result[0]
+def porcentaje():
+    ok = 0
+    i = 0
+    for h in hip(poly, theta_opt):
+        if h >= 0.5:
+            if Y[i] == 1.0:
+                ok +=1
+        else:
+            if Y[i] == 0.0:
+                ok +=1
+        i +=1
+    return (ok / m)
 
 #   Definimos la funcion del borde de decision a dibujar
 def plot_decisionboundary(X, Y, theta, poly):
@@ -63,6 +72,10 @@ def plot_decisionboundary(X, Y, theta, poly):
     plt.contour(xx1, xx2, h, [0.5], linewidths=1, colors='g')
     plt.savefig("boundary.pdf")
 
+#   Obtenemos el coste y los valores de theta optimos
+result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(poly, Y))
+theta_opt = result[0]
+
 #   Definimos los puntos a dibujar
 plt.xlabel('Microchip Test 1')
 plt.ylabel('Microchip Test 2')
@@ -74,4 +87,4 @@ plt.scatter(X[pos, 0], X[pos, 1], marker='+', c='k')
 plt.scatter(X[neg, 0], X[neg, 1], marker='o', c='g')
 plot_decisionboundary(X, Y, theta_opt, poly)
 
-#print(cost(theta, poly, Y))
+print("Porcentaje de aciertos: " + str(porcentaje()))

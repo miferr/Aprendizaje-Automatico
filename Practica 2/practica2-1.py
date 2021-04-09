@@ -79,4 +79,3 @@ pinta_frontera_recta(X, Y, theta_opt)
 
 #   Calculamos el porcentaje de aciertos del modelo
 print("Porcentaje de aciertos: " + str(porcentaje()))
-print("gradiente: ",gradient(theta, OX, Y))
