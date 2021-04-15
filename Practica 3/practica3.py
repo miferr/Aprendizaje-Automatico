@@ -24,7 +24,7 @@ num_etiquetas = etiquetas.size
 OX = np.hstack([np.ones([num_ejemplos, 1]), X])
 
 #   Definimos nuestra theta
-theta = [0] * (m + 1)
+theta = np.zeros(m +  1)
 
 #   Definimoos nuestra termino de regularizacion
 lamda = 0.1
@@ -44,29 +44,32 @@ def hip(X, theta):
 
 #   Definimos la funcion de coste
 def cost(theta, X, Y):
-    return (-1 / m) * (np.dot(Y, np.log(hip(X, theta))) + np.dot((1 - Y), np.log(1 - hip(X, theta) + 1e-6)))
+        return (-1 / m) * (np.dot(np.ravel(Y), np.log(hip(X, theta))) + np.dot((1 - np.ravel(Y)), np.log(1 - hip(X, theta) + 1e6))) + (lamda / (2 * m)) * np.sum(np.power(theta, 2))       
 
 #   Definimos la funcion de gradiente
 def gradient(theta, X, Y):
-    return (1 / m) * np.matmul((hip(X, theta) - Y), X)
-
-#   METER EN BUCLE
-#   Obtenemos el coste y los valores de theta optimos
-#result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(OX, y))
-#theta_opt = result[0]
-
-print(np.shape(y))
-print(np.shape(np.where(y == 1)))
+    return (1 / m) * np.matmul((hip(X, theta) - np.ravel(Y)), X)
 
 #   Definimos la función de entrenamiento para los clasificadores
 def oneVsAll(X, y, etiquetas, reg):
+    result = []
     for i in etiquetas:
-        aux = []
-        aux.append(y == i * 1)
-    return
+        aux = np.asarray(y == i) * 1
+        op = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(OX, aux), disp=False)
 
-oneVsAll(X, y, etiquetas, lamda)
+        result.append(op[0])
+    return result
 
+#   Obtenemos los valores optimos de theta
+theta_opt = oneVsAll(X, y, etiquetas, lamda)
 
+#   Definimos una funcion  que calcule el porcentaje de predicciones correctas
+def porcentaje(theta):
+    ok = 0
+    i = 0
+    for h in hip(OX, theta):
+        print(h)
+        i +=1
+    return (ok / m)
 
-
+porcentaje(theta_opt[9])
