@@ -33,6 +33,8 @@ def hip(X, theta):
 
 def error(theta, X, Y):
     m = np.shape(X)[0]
+    if m==0:
+        return 0
     return (1 / (2 * m)) * np.sum(((hip(X, theta) - Y) ** 2))
 
 #   Definimos la funcion de coste
@@ -52,7 +54,7 @@ def learning_curve(X, Y, Xval, yval,reg):
     train_error = []
     n_training_sets = []
     theta = np.array([1] * (n + 1))
-    for i in range (1, m):
+    for i in range (0, m):
         theta_opt = minimize(fun=cost, x0=theta, args=(OX[:i], y[:i], reg), jac=gradient).x
         cross_validation_error.append(error(theta_opt,Xval,yval))
         train_error.append(error(theta_opt,OX[:i],y[:i]))
