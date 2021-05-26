@@ -36,7 +36,6 @@ valores_norm, mu, sigma = normalize(valores)
 X_norm = valores_norm[:, :-1]
 Y_norm = valores_norm[:, -1]
 
-
 # Añadimos una columna de 1s a X
 X_norm = np.hstack([np.ones([filas,1]),X_norm])
 
