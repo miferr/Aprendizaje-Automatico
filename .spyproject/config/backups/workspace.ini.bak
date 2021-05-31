@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['Practica 1\\practica1-1.py', 'Practica 5\\AA_practica_5.py', 'Practica 6\\practica6-1.py', 'Practica 6\\practica6-2.py', 'Practica 4\\practica4.py', 'Practica 2\\practica2-1.py', 'Practica 1\\practica1-2.py']
+recent_files = ['Practica 1\\practica1-1.py', 'Practica 5\\AA_practica_5.py', 'Practica 6\\practica6-1.py', 'Practica 6\\practica6-2.py', 'Practica 4\\practica4.py', 'Practica 2\\practica2-1.py', 'Practica 1\\practica1-2.py', 'Practica 2\\practica2-2.py']
 

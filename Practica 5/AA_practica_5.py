@@ -13,6 +13,7 @@ Xtest = data["Xtest"]
 ytest = data["ytest"].ravel()
 Xval = data["Xval"]
 yval = data["yval"].ravel()
+print(X)
 
 m = np.shape(X)[0]
 n = np.shape(X)[1]
@@ -122,6 +123,7 @@ p = 8
 X_pol = nuevos_atributos(X,p)
 X_pol = normalize(X_pol)
 X_pol = np.hstack([np.ones([np.shape(X_pol)[0], 1]), X_pol])
+print(X_pol)
 
 theta = np.array([1] * (X_pol.shape[1]))
 theta_opt = minimize(fun=cost, x0=theta, args=(X_pol, y, reg), jac=gradient).x
